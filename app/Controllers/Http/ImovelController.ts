@@ -13,9 +13,12 @@ export default class ImovelController {
 
   public async buscaComFiltros({ request }: HttpContextContract) {
     try {
+      // filtros existentes
       const uf = request.input('uf')
-      const municipio = request.input('municipio')
+      const municipio = request.input('municipio')?.toLowerCase()
       const nirf = request.input('nirf')
+      const codigoIncra = request.input('codigoIncra')
+      const nomeimovelrural = request.input('nomeimovelrural')?.toLowerCase()
       const page = request.input('page', 1)
       const size = request.input('size', 10)
 
@@ -25,10 +28,18 @@ export default class ImovelController {
         query.where('uf', uf)
       }
       if (municipio) {
-        query.where('municipio', municipio)
+        query.where('municipio', 'like', `%${municipio}%`)
       }
       if (nirf) {
-        query.where('nirf', nirf)
+        query.where('nirf', 'like', `%${nirf}%`)
+      }
+
+      if (codigoIncra) {
+        query.where('codigoincra', 'like', `%${codigoIncra}%`)
+      }
+
+      if (nomeimovelrural) {
+        query.where('nomeimovelrural', 'like', `%${nomeimovelrural}%`)
       }
 
       const imoveis = await query.paginate(page, size)

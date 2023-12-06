@@ -11,16 +11,16 @@ export default class Imovel extends BaseModel {
   public nirf: string
 
   @column()
-  public areaTotal: number
+  public areatotal: number
 
   @column()
-  public codigoIncra: string
+  public codigoincra: string
 
   @column()
-  public nomeImovelRural: string
+  public nomeimovelrural: string
 
   @column()
-  public situacaoImovel: number
+  public situacaoimovel: number
 
   @column()
   public endereco: string
@@ -38,17 +38,11 @@ export default class Imovel extends BaseModel {
   public cep: string
 
   @column()
-  public codigoImune: number
+  public codigoimune: number
 
   @column.date()
-  public dataInscricao: DateTime
+  public datainscricao: DateTime
 
   @column()
   public sncr: number
-
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
 }

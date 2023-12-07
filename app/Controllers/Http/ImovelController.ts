@@ -13,17 +13,14 @@ export default class ImovelController {
     }
   }
 
-  public async buscaComFiltros({ request }: HttpContextContract) {
+  public async buscaComFiltros({ request, response }: HttpContextContract) {
     try {
-      //call api to verify work
-      const response = await axios.get(`${Env.get('SERVICES_URL')}`)
-      console.log(response.data)
+      const service = await axios.get(`${Env.get('SERVICES_URL')}`)
 
-      if (response.data.service !== true) {
-        throw new Error('Serviço indisponível')
+      if (service.data.status !== true) {
+        return response.status(500).send(service.data)
       }
 
-      // filtros existentes
       const uf = request.input('uf')
       const municipio = request.input('municipio')?.toLowerCase()
       const nirf = request.input('nirf')

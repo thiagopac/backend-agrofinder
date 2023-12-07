@@ -1,5 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Imovel from 'App/Models/Imovel'
+import axios from 'axios'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class ImovelController {
   public async buscarPorId({ params }: HttpContextContract) {
@@ -13,6 +15,14 @@ export default class ImovelController {
 
   public async buscaComFiltros({ request }: HttpContextContract) {
     try {
+      //call api to verify work
+      const response = await axios.get(`${Env.get('SERVICES_URL')}`)
+      console.log(response.data)
+
+      if (response.data.service !== true) {
+        throw new Error('Serviço indisponível')
+      }
+
       // filtros existentes
       const uf = request.input('uf')
       const municipio = request.input('municipio')?.toLowerCase()

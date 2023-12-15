@@ -15,16 +15,16 @@ export default class ImovelController {
 
   public async buscaComFiltros({ request, response }: HttpContextContract) {
     try {
-      const service = await axios.get(`${Env.get('SERVICES_URL')}`)
+      // const service = await axios.get(`${Env.get('SERVICES_URL')}`)
 
-      if (service.data.status !== true) {
-        return response.status(500).send(service.data)
-      }
+      // if (service.data.status !== true) {
+      //   return response.status(500).send(service.data)
+      // }
 
       const uf = request.input('uf')
       const municipio = request.input('municipio')?.toLowerCase()
       const nirf = request.input('nirf')
-      const codigoIncra = request.input('codigoIncra')
+      const codigoIncra = request.input('codigoincra')
       const nomeimovelrural = request.input('nomeimovelrural')?.toLowerCase()
       const page = request.input('page', 1)
       const size = request.input('size', 10)
@@ -43,6 +43,7 @@ export default class ImovelController {
 
       if (codigoIncra) {
         query.where('codigoincra', 'like', `%${codigoIncra}%`)
+        // query.where('codigoincra', '=', `%${codigoIncra}%`)
       }
 
       if (nomeimovelrural) {

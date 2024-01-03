@@ -24,8 +24,10 @@ export default class ImovelController {
       const uf = request.input('uf')
       const municipio = request.input('municipio')?.toLowerCase()
       const nirf = request.input('nirf')
-      const codigoIncra = request.input('codigoincra')
+      const codigoincra = request.input('codigoincra')
       const nomeimovelrural = request.input('nomeimovelrural')?.toLowerCase()
+      const areaminima = request.input('areaminima')
+      const areamaxima = request.input('areamaxima')
       const page = request.input('page', 1)
       const size = request.input('size', 10)
 
@@ -41,13 +43,20 @@ export default class ImovelController {
         query.where('nirf', 'like', `%${nirf}%`)
       }
 
-      if (codigoIncra) {
-        query.where('codigoincra', 'like', `%${codigoIncra}%`)
-        // query.where('codigoincra', '=', `%${codigoIncra}%`)
+      if (codigoincra) {
+        query.where('codigoincra', 'like', `%${codigoincra}%`)
       }
 
       if (nomeimovelrural) {
         query.where('nomeimovelrural', 'like', `%${nomeimovelrural}%`)
+      }
+
+      if (areaminima !== undefined) {
+        query.where('areatotal', '>=', areaminima * 10)
+      }
+
+      if (areamaxima !== undefined) {
+        query.where('areatotal', '<=', areamaxima * 10)
       }
 
       const imoveis = await query.paginate(page, size)

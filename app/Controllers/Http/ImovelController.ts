@@ -28,8 +28,12 @@ export default class ImovelController {
       const nomeimovelrural = request.input('nomeimovelrural')?.toLowerCase()
       const areaminima = request.input('areaminima')
       const areamaxima = request.input('areamaxima')
+
+      const colunaOrdenacao = request.input('colunaOrdenacao', null)
+      const direcaoOrdenacao = request.input('direcaoOrdenacao', null)
+
       const page = request.input('page', 1)
-      const size = request.input('size', 10)
+      const size = request.input('size', 30)
 
       const query = Imovel.query()
 
@@ -57,6 +61,10 @@ export default class ImovelController {
 
       if (areamaxima !== undefined) {
         query.where('areatotal', '<=', areamaxima * 10)
+      }
+
+      if (colunaOrdenacao !== null && direcaoOrdenacao !== null) {
+        query.orderBy(colunaOrdenacao, direcaoOrdenacao)
       }
 
       const imoveis = await query.paginate(page, size)
